@@ -1,0 +1,157 @@
+<head>
+	<% include ./partials/head %>
+	<link rel="stylesheet" href="css/editstud.css" type="text/css">
+	<link href="/css/students.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+	<header>
+
+		<% include ./partials/header %>
+	</header>
+	<div class="container_stu">
+
+
+  <main><% for (i=0; i< result.length; i++) { %>
+		<div class="wrapper">
+							<%- messages('messages', locals) %>
+<form name="f1" method="POST" action="/seestuds/edit/<%= result[i].stu_id %>" >
+					<table class="table table-hover" id="acrylic">
+
+		<thead><tr>
+			<th>Edit <%=result.stu_name%> Information%>
+				<th></th>
+	 	  </th>
+		</tr>
+
+		</thead>
+		<tbody>
+
+			<tr>
+				<td>Bootcamp</td>
+				<td>
+					<select name="slelectbootcamp"  required="" oninvalid="this.setCustomValidity('Bootcamp is required')"
+	oninput="setCustomValidity('')" >
+						<option value="">Select bootcamp name</option>
+						<%result_boot.forEach(function(res){%>
+						<option value="<%=res.bootcamp_id%>" <%if(result[i].bootcamp_id == res.bootcamp_id){ %> selected <%}%> > <%=res.bootcamp_name%> </option>
+						<%});%>
+					</select>
+					 </td>
+			</tr>
+<!--  TR -->
+    <tr>
+      <td>Name</td>
+      <td>
+      	<input type="text" name="stu_name" class="input_fields" value="<%=result[i].stu_name %>" oninvalid="this.setCustomValidity('Name is required')"
+oninput="setCustomValidity('')"/>
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>Birth date</td>
+      <td>
+      	<input type="date" name="stu_birth" class="input_fields"  value="<%=result[i].stu_birth_date %>" oninvalid="this.setCustomValidity('date is required')"
+oninput="setCustomValidity('')"/>
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>Nationality</td>
+      <td>
+				<select name="stu_nath" >
+      		<option>Select nationality</option>
+          <%result_country.forEach(function(res){%>
+          <option value="<%=res.num_code%>" <%if(result[i].nath_id == res.num_code){ %> selected <%}%> > <%=res.nationality%> </option>
+          <%});%>
+        </select>
+
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>Phone</td>
+      <td>
+      	<input type="text" name="stu_phon" class="input_fields" value="<%=result[i].phone_num %>" oninvalid="this.setCustomValidity('Phone is required')"
+oninput="setCustomValidity('')"/>
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>E-mail</td>
+      <td>
+      	<input type="email" name="stu_email" class="input_fields" value="<%=result[i].email %>" oninvalid="this.setCustomValidity('Email is required')"
+oninput="setCustomValidity('')"/>
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>Post code</td>
+      <td>
+
+      	<input type="text" name="zip" size="6" class="input_fields" value="<%=result[i].postcode %>" oninvalid="this.setCustomValidity('Post is required')"
+oninput="setCustomValidity('')"/ >
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>Address</td>
+      <td>
+      	<input type="text" name="stu_address" class="input_fields" value="<%=result[i].address %>" oninvalid="this.setCustomValidity('address is required')"
+oninput="setCustomValidity('')"/>
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>City</td>
+      <td>
+      	<input type="text" name="stu_city" class="input_fields" value="<%=result[i].city %>" oninvalid="this.setCustomValidity('City is required')"
+oninput="setCustomValidity('')"/>
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+      <td>Card id #</td>
+      <td>
+      	<input type="text" name="stu_card" class="input_fields"  value="<%=result[i].card_id %>"  />
+      	 </td>
+    </tr>
+<!--//  TR -->
+
+<!--  TR -->
+    <tr>
+		 <td  align="center" colspan="2">
+			 <input type="submit" name="updateme" value="Update"  class="myButton">
+		</td>
+    </tr>
+<!--//  TR -->
+<%}%>
+  </tbody>
+</table>
+
+</form>
+	</main>
+	</div>
+</div>
+	<footer>
+		<% include ./partials/footer %>
+	</footer>
+
+</body>
