@@ -30,11 +30,7 @@
 
        <link rel="stylesheet" href="/css/style2.css">
 
-
 <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-
-
-
 	<%if (refresh_endtime>=0){%>
 <meta http-equiv="refresh" content="<%=refresh_endtime*60%>;  URL=../main/check">
   <%}%>
@@ -44,9 +40,6 @@
 	<%}%>
 </head>
 <body onclick="document.f1.cardid.focus();" onload="startTime();document.f1.cardid.focus();">
-
-
-
 <%if (birth!='')  { %>
 	<div  class="container_maing">
 		<%}
@@ -66,13 +59,9 @@ else{
 document.f2.submit();
 </script>
 <% } %>
-	<!-- <p id="welcome_msg"><%= msg[0].check_message %></p> -->
+
 	<br /><br />
 
-
-	<!-- <a href="#costumModal7" role="button" class="btn btn-default" data-toggle="modal">
-			whirlIn
-	</a> -->
 	<%if(msg[0].sound>=1){ %>
 		<%if (birth!='')  { %>
 			<%birthval=",    Happy birthday "+birth[0].stu_name%>
@@ -84,7 +73,6 @@ document.f2.submit();
 			}
 
 			%>
-		<!-- <input onclick='responsiveVoice.speak("<%= msg[0].check_message %>");' type='button' value='🔊 Play' /> -->
 <script>
 <%if(Math.floor((Math.random() * 2) + 1)==1){%>
 responsiveVoice.speak("<%= msg[0].check_message %>");
@@ -96,11 +84,9 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 		<%= msg[0].check_message %><%=birthval%></div>
 <% } %>
 
-		<!-- <%if(msg[0].sound==1 || msg[0].sound==4){ %> -->
-
+<%if(msg[0].stu_photo_name!=''){ %>
 <div  class="top_container_img" ><img src="/uploads/<%= msg[0].stu_photo_name %>"  style="width:200px;border-radius: 50%;box-shadow: 5px 5px 5px #888888;"></div>
-<!-- <% } %> -->
-
+<%}%>
 		<%if (msg[0].check_message=='222')  { %>
 		<audio src="/<%= msg[0].sound %>.m4a" autoplay>
 		<p>If you are reading this, it is because your browser does not support the audio element.     </p>
@@ -124,10 +110,7 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 
 <form name="f1" method="POST" action="../main/check" >
 
-
 <tbody>
-
-
 <!--  TR -->
 
 <input type="password" name="cardid" style="opacity: 0;"  >
@@ -139,13 +122,7 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 </tbody>
 
 </form>
-				<!-- </div>
-
-
-
-		</div> -->
-	<!-- </main> -->
-
+			<!-- </main> -->
 
 	<div align="center" class="bottom_container">
 		<%if (signed_stu!='')  {i=0; %>
@@ -154,10 +131,8 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
    <img src="/uploads/<%= sign.stu_photo_name %>" style="width:60px; height:60px;border-radius: 50%;">
    <p><%= sign.sign_in_date.getHours() %>:<%= sign.sign_in_date.getMinutes() %></p>
 </div>
-
 			<%});%>
-
-					<% } %>
+			<% } %>
 	</div>
 
 </div>
@@ -171,8 +146,4 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 <script src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js'></script>
 
 	<script  src="/js/index.js"></script>
-
-
-
-
 </body>

@@ -115,6 +115,7 @@ app.use('/records',urlencodedParser, authenticate, require('./controllers/record
 app.use('/editstud',urlencodedParser, authenticate, require('./controllers/see_students'))
 app.use('/exceptions',urlencodedParser, authenticate , require('./controllers/exceptions'))
 app.use('/see_students',urlencodedParser, authenticate, require('./controllers/see_students'))
+app.use('/seestuds',urlencodedParser, authenticate, require('./controllers/see_students'))
 app.use('/reports', urlencodedParser, authenticate, require('./controllers/reports'))
 app.use('/logindet',urlencodedParser, authenticate, require('./controllers/logindet'))
 app.use('/logout',urlencodedParser, require('./controllers/logout'))

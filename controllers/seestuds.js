@@ -115,47 +115,19 @@ router.post('/edit/:id', (req,res)=>{
   req.getConnection(function(err, connection) {
     if (err) return next(err);
     if(req.body.updateme != ''){
-      // xax=parseInt(req.body.stu_nath)+15;
-// console.log("AAAAAAAAAAAAa "+xax);
-
-
-connection.query("SELECT * FROM bootcamp_students where ((bootcamp_id= " +req.body.slelectbootcamp+ " and card_id='" +req.body.stu_card+ "') or (email='" +req.body.stu_email+ "')) and stu_id <> " +req.params.id+ " ", function (err, stuck, fields) {
-     if (err) throw err;
-if(stuck==''){
-
-
-
      var sql = "UPDATE bootcamp_students SET stu_name= '" +req.body.stu_name+ "',phone_num='" +req.body.stu_phon+ "',email='" +req.body.stu_email+ "', postcode='" +req.body.zip+ "',address='" +req.body.stu_address+ "',city='" +req.body.stu_city+ "',card_id='" +req.body.stu_card+ "', stu_birth_date='" +req.body.stu_birth+ "' ,nath_id=" +parseInt(req.body.stu_nath)+ ",bootcamp_id=" +req.body.slelectbootcamp+ "  WHERE stu_id = " +req.params.id+ " "
      connection.query(sql, function (err, result) {
     if (err) throw err;
-    req.flash('info', `Student is Edited! successfully`);
-    });
-  }
-  else{
-    req.flash('info', `Student email or card id is already exist .. Please try again`);
-  }
-
-  });
-
     connection.query("SELECT * FROM bootcamp_name", function (err, result, fields) {
          if (err) throw err;
     connection.query("SELECT * FROM countries", function (err2, result_country, fields) {
               if (err2) throw err2;
-
-
+    req.flash('info', `Student is Edited!`)
    res.redirect('/seestuds/edit/'+req.params.id);
-
-
 
              });
           });
-
-
-
-
-
-
-
+        })
       }
      });
   });

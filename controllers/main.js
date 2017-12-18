@@ -21,7 +21,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 router.get('/', (req,res)=>{
-
+  req.getConnection(function(err, connection) {
+     if (err) return next(err);
 
 var date = new Date();
   // Calculate auto refresh time to send auto message for students after 9:00 am
@@ -37,11 +38,18 @@ if(9-current_hour==0 && 30-current_min>=0)
 refresh_endtime=   30-current_min
 }
 
+connection.query("SELECT * FROM sign_in_tabel where date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "'  ", function (err, ra3, fields) {
+     if (err) throw err;
 
+if(ra3==''){
+  connection.query("update check_ok set stu_name='' , stu_photo_name='' ,stu_id=0 , bootcamp_id=0", function (err, rdel, fields) {
+                      if (err) throw err;
+                 });
+         }
+     });
 if(parseInt(refresh_endtime)<0){
 
-  req.getConnection(function(err, connection) {
-     if (err) return next(err);
+
 
 connection.query("SELECT * FROM sign_in_tabel where abs_id=1  and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "'  ", function (err, ra3, fields) {
      if (err) throw err;
@@ -55,13 +63,13 @@ else {
     res.render('main',{refresh_endtime: refresh_endtime,birth:'',msg:'',signed_stu:''});
 }
 });
-});
+
 
 }else {
 
   res.render('main',{refresh_endtime: refresh_endtime,birth:'',msg:'',signed_stu:''});
 };
-
+});
 });
 
 
@@ -82,7 +90,6 @@ refresh_endtime=   30-current_min
 }
 
 //Send direct message after 9:00 AM
-// if(dateFormat(now, "ddd")!= 'Sat' &&  dateFormat(now, "ddd")!= 'Sun' && ((current_hour== 9 && current_min>=30) || (current_hour> 9 && current_min>=0)))
 if( dateFormat(now, "ddd")!= 'Sun' && ((current_hour== 9 && current_min>=30) || (current_hour> 9 && current_min>=0)))
 {
 
@@ -113,7 +120,6 @@ if(ra1!=''){
                          {
 datenow2=dateFormat(now, "yyyy-mm-dd HH:MM:ss");
 
-// var sql = "INSERT INTO sign_in_tabel (stu_id,bootcamp_id,card_id,sign_in_date,sign_alarm,check_message,stu_name,stu_photo_name) VALUES ( " +res.stu_id+ "," +res.bootcamp_id+ ",'" +res.card_id+ "','" + datenow2 + "',1,'Absent','" +res.stu_name+ "','" +res.stu_photo_name+ "')";
 var sql = "INSERT INTO sign_in_tabel (stu_id,bootcamp_id,card_id,sign_alarm,check_message,stu_name,stu_photo_name,abs_id) VALUES ( " +res.stu_id+ "," +res.bootcamp_id+ ",'" +res.card_id+ "',1,'Absent','" +res.stu_name+ "','" +res.stu_photo_name+ "',1)";
    connection.query(sql, function (err, rft) {
    if (err) throw err;
@@ -124,15 +130,11 @@ var sql = "INSERT INTO sign_in_tabel (stu_id,bootcamp_id,card_id,sign_alarm,chec
    });
    //Logic sign_alarm
 
-   // connection.query("SELECT * FROM sign_in_tabel where stu_id=" +res.stu_id+ " and sign_alarm>0 order by sign_id desc", function (err, result4, fields) {
      connection.query("SELECT * FROM sign_in_tabel where stu_id=" +res.stu_id+ "  order by sign_id desc", function (err, result4, fields) {
         if (err) throw err;
         if(result4 != ''){
           i=-1;
           j=0;
-     // connection.query("SELECT * FROM sign_in_tabel where stu_id=" +result4[0].stu_id+ " and sign_id< " +result4[0].sign_id+ " order by sign_id desc", function (err, rc, fields) {
-     //      if (err) throw err;
-     //      if(rc != ''){
             result4.forEach(function(resu){
               j=j+1;
               if(j<=3)
@@ -146,7 +148,7 @@ var sql = "INSERT INTO sign_in_tabel (stu_id,bootcamp_id,card_id,sign_alarm,chec
                 return;
               }
      });
-// console.log("aaaaaaaaaaaaaaaa   "+   i    +"    "+ res.stu_name);
+
      if(i==0)  alarm_message_slack="Notice "+res.stu_name+" : You are in cool down period ... *** Restart Network Notification *** "
 
      if(i==1)  alarm_message_slack="Notice "+res.stu_name+" : Please wash dishes ... *** Restart Network Notification *** "
@@ -218,9 +220,6 @@ var xcond="";
   alarm_message="";
   req.getConnection(function(err, connection) {
     if (err) return next(err);
-
-
-
             connection.query(`SELECT * FROM birth_date where played =0 order by birth_id desc  `, function (err, birth , fields) {
                   if (err) throw err;
 
@@ -302,10 +301,10 @@ if ((dateFormat(datenow2, "HH") >=9 && dateFormat(datenow2, "mm") >0) || (dateFo
 sound_file="1";
                         if(sign_alarm == 0){
 
-                        alarm_message="Welcome "+result[0].stu_name+" , Happy coading";
+                        alarm_message="Welcome "+result[0].stu_name+" , Happy coding";
                       }
                       else {
-                        alarm_message="Welcome "+result[0].stu_name+" , Happy coading, Notice there is a notification sent to the slack, Please check it";
+                        alarm_message="Welcome "+result[0].stu_name+" , Happy coding, Notice there is a notification sent to the slack, Please check it";
 sound_file="4";
                       }
 
@@ -316,7 +315,7 @@ connection.query("SELECT * FROM execuse_condithion where stu_id=" +result[0].stu
                         {
                           sound_file="1";
                          sign_alarm=0;
-                         alarm_message="Welcome "+result[0].stu_name+" , Happy coading";
+                         alarm_message="Welcome "+result[0].stu_name+" , Happy coding";
                          connection.query("update sign_in_tabel set sign_alarm=" + sign_alarm + ",check_message='" + alarm_message + "' where stu_id=" +result[0].stu_id+ " and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "' ", function (err, result3, fields) {
                               if (err) throw err;
                           });
@@ -367,7 +366,7 @@ connection.query("SELECT * FROM execuse_condithion where stu_id=" +result[0].stu
               //XXXXXXXXXXXXXX Condition only for weekend
               if(dateFormat(now, "ddd")== 'Sun')
               {
-                alarm_message="Welcome "+result[0].stu_name+" you are just checked in but there is no registration action in the week end, Happy coading";
+                alarm_message="Welcome "+result[0].stu_name+" you are just checked in but there is no registration action in the week end, Happy coding";
                 connection.query("delete from sign_in_tabel  where stu_id=" +result[0].stu_id+ " and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "' ", function (err, rup, fields) {
                      if (err) throw err;
               });
@@ -598,8 +597,7 @@ router.post('/check_get', (req,res)=>{
     res.render('main',{refresh_endtime: refresh_endtime,birth:birth,msg:msg,signed_stu:signed_stu});
     if(birth!=''){
       var now2 = new Date();
-      // console.log("Now="+now2.getMinutes());
-      // console.log("Sign="+birth[0].sign_time.getMinutes());
+
       if(now2.getMinutes()-birth[0].sign_time.getMinutes()>=1 || now2.getMinutes()-birth[0].sign_time.getMinutes()<0 ){
     connection.query(`UPDATE birth_date SET played = 1`, function (err, qq, fields) {
                 if (err) throw err;
