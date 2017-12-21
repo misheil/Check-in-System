@@ -21,9 +21,6 @@ router.post('/show', (req,res)=>{
     var date = new Date();
             req.getConnection(function(err, connection) {
               if (err) return next(err);
-
-
-
   //XX+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++

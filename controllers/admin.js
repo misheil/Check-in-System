@@ -3,10 +3,12 @@ const router = express.Router()
 const { check, validationResult } = require('express-validator/check')
 const { matchedData, sanitize } = require('express-validator/filter')
 var passwordHash = require('password-hash');
+const session = require('express-session')
+
 //Render Index
 router.get('/', (req,res)=>{
-  req.session.destroy();
-  res.render('index')
+  // req.session.destroy();
+  res.render('index',{message : ''})
 })
 
 
@@ -57,7 +59,7 @@ router.post('/login', (req,res)=>{
   var query = connection.query(sql,(err,results)=>{
     if (err) throw err;
 
-    // if( results.length > 0){
+   if( results.length > 0){
     if( passwordHash.verify(req.body.password,results[0].password)){
       for(i=0;i<results.length ; i++){
         var name = results[i].full_name
@@ -67,8 +69,17 @@ router.post('/login', (req,res)=>{
       res.redirect('/bootcamp');
     }
     else {
+
+      req.flash('danger','User name or password Does not match!')
+      // req.session.destroy();
+      res.render('index',{message : ''});
+    }
+  }
+    else {
+
       req.flash('danger','User Does not exist!')
-      res.redirect('/admin');
+      // req.session.destroy();
+      res.render('index',{message : ''});
     }
 
   });

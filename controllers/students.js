@@ -45,9 +45,13 @@ req.checkBody('stu_email', 'Email is required').isEmail();
 req.checkBody('zip', 'Post Code is required').not().isEmpty();
 req.checkBody('stu_address', 'Address is required').not().isEmpty();
 req.checkBody('stu_city', 'City is required').not().isEmpty();
-
-
-connection.query("SELECT * FROM bootcamp_students where (bootcamp_id= " +req.body.slelectbootcamp+ " and card_id='" +req.body.stu_card+ "') or (email='" +req.body.stu_email+ "')", function (err, stuck, fields) {
+if(req.body.stu_card != ''){
+var sql="SELECT * FROM bootcamp_students where bootcamp_id= " +req.body.slelectbootcamp+ " and card_id='" +req.body.stu_card+ "'  and email='" +req.body.stu_email+ "' ";
+}
+else {
+var sql="SELECT * FROM bootcamp_students where bootcamp_id= " +req.body.slelectbootcamp+ "  and email='" +req.body.stu_email+ "' ";
+}
+connection.query(sql, function (err, stuck) {
      if (err) throw err;
 if(stuck==''){
 
@@ -62,11 +66,6 @@ var errors = req.validationErrors();
 
            connection.query("SELECT * FROM countries", function (err2, result_country, fields) {
                 if (err2) throw err2;
-
-      // res.render('students',{result : result,result_country : result_country,message : message, errors: errors })
-
-      // console.log(errors);
-      // res.end();
       req.flash('info','Student successfully added.')
       res.redirect('back',{
           errors: errors,
