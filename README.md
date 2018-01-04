@@ -8,6 +8,4 @@ Good Luck!
 
 Irene, Ivas , Sjahriyar and  Mishiel Restart Network GROUP
 
-<p align="center">
-  <img src="https://github.com/misheil/Checking_System/tree/master/public/img/main.gif"/>
-</p>
+![alt tag](https://github.com/misheil/Checking_System/tree/master/public/img/main.gif)
