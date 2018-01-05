@@ -84,8 +84,11 @@ if(data!=''){%>
                     <td><%= jx %></td>
                     <td>
                       <div class="images">
+                        <%if(data[i].stu_photo_name != 'undefined' ){ %>
                       <img src="/uploads/<%= data[i].stu_photo_name %>" style="width:60px; height:60px;border-radius: 50%;">
-
+                      <%}else{%>
+                     <img src="/uploads/blank.jpg" style="width:60px; height:60px;border-radius: 50%;">
+                       <%}%>
                       </div>
                       <%= data[i].stu_name %>
 
