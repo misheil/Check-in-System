@@ -106,7 +106,7 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 		<%= msg[0].check_message %><%=birthval%></div>
 <% } %>
 
-<%if(msg[0].stu_photo_name!=''){ %>
+<%if( msg[0].stu_photo_name!='' && msg[0].stu_photo_name!= "undefined"){ %>
 <div  class="top_container_img" ><img src="/uploads/<%= msg[0].stu_photo_name %>"  style="width:200px;border-radius: 50%;box-shadow: 5px 5px 5px #888888;"></div>
 <%}%>
 		<%if (msg[0].check_message=='222')  { %>
@@ -150,7 +150,11 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 		<%if (signed_stu!='')  {i=0; %>
 		<%signed_stu.forEach(function(sign){i=i+1;%>
 			<div class="images">
+				<%if(msg[0].stu_photo_name!='' && sign.stu_photo_name!= "undefined" ){ %>
    <img src="/uploads/<%= sign.stu_photo_name %>" style="width:60px; height:60px;border-radius: 50%;">
+	 <%} else {%>
+		 <img src="/uploads/blank.jpg" style="width:60px; height:60px;border-radius: 50%;">
+		 <%}%>
    <p><%= sign.sign_in_date.getHours() %>:<%= sign.sign_in_date.getMinutes() %></p>
 </div>
 			<%});%>

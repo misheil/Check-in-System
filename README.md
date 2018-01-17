@@ -1,11 +1,10 @@
 # RestartCheckIn
 
-
-Checking system using slack-node to send notification message for delay or absence, also using responsivevoice to read text message and translate it to voice message, and using gstatic loader to draw visual charts for absence and delay reports, Using Node JS, Express, MySQL, Ejs , responsivevoice , corechart.
+Here is our Boiler Plate, all you need to do is clone this respository and after that run npm install to install dependencies for Node JS and React, i already added eveything we need to package.json.
+also MySQL is set with MiddleWares.
 
 Good Luck!
 
+Check in system for Restart.Network - Node, Express, SQL, Ejs , responsivevoice , corechart.
 
 Irene, Ivas , Sjahriyar and  Mishiel Restart Network GROUP
-
-![Image](/public/img/main.gif)

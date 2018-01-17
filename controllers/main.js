@@ -37,7 +37,6 @@ if(9-current_hour==0 && 30-current_min>=0)
 {
 refresh_endtime=   30-current_min
 }
-
 connection.query("SELECT * FROM sign_in_tabel where date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "'  ", function (err, ra3, fields) {
      if (err) throw err;
 
@@ -101,7 +100,7 @@ req.getConnection(function(err, connection) {
                      if (err) throw err;
    });
 
-   connection.query("SELECT * FROM bootcamp_name where bootcamp_active=1 order by bootcamp_id desc ", function (err, ra1, fields) {
+   connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 and bootcamp_active=1 order by bootcamp_id desc ", function (err, ra1, fields) {
         if (err) throw err;
 if(ra1!=''){
 
@@ -166,7 +165,7 @@ i=i+1;
      slack.setWebhook(webhookUri);
 
      slack.webhook({
-       channel: "#general",
+       channel: "#"+ra1[0].slack_channel,
        username: "webhookbot",
        text: alarm_message_slack,
      }, function(err, response) {
@@ -242,7 +241,7 @@ var xcond="";
 if (passok=="1"){
 
 
-  connection.query("SELECT * FROM bootcamp_name where bootcamp_active=1 ", function (err, rmain, fields) {
+  connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 and bootcamp_active=1 ", function (err, rmain, fields) {
        if (err) throw err;
 
        if(rmain != ''){
@@ -261,7 +260,7 @@ if(result == ''){
 
         if(result != ''){
 
-          connection.query("SELECT * FROM bootcamp_name where bootcamp_active=1 and bootcamp_id=" +result[0].bootcamp_id+ "", function (err, result2, fields) {
+          connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 and bootcamp_active=1 and bootcamp_id=" +result[0].bootcamp_id+ "", function (err, result2, fields) {
                if (err) throw err;
 
                if(result2 != ''){
@@ -299,12 +298,24 @@ if ((dateFormat(datenow2, "HH") >=9 && dateFormat(datenow2, "mm") >0) || (dateFo
  sign_alarm=1;
 }
 sound_file="1";
+
+var phrase = result[0].stu_name;
+var pos = phrase.indexOf(" ");
+if(pos>0){
+var stname=phrase.substr(0, pos);
+}
+else{
+var stname=result[0].stu_name;
+}
+
+
+
                         if(sign_alarm == 0){
 
-                        alarm_message="Welcome "+result[0].stu_name+" , Happy coding";
+                        alarm_message="Welcome "+stname+" , Happy coding";
                       }
                       else {
-                        alarm_message="Welcome "+result[0].stu_name+" , Happy coding, Notice there is a notification sent to the slack, Please check it";
+                        alarm_message="Welcome "+stname+" , Happy coding, Notice there is a notification sent to the slack, Please check it";
 sound_file="4";
                       }
 
@@ -313,9 +324,19 @@ connection.query("SELECT * FROM execuse_condithion where stu_id=" +result[0].stu
      if (err) throw err;
                         if (rsx!='')
                         {
+
+                          var phrase = result[0].stu_name;
+                          var pos = phrase.indexOf(" ");
+                          if(pos>0){
+                          var stname=phrase.substr(0, pos);
+                          }
+                          else{
+                          var stname=result[0].stu_name;
+                          }
+
                           sound_file="1";
                          sign_alarm=0;
-                         alarm_message="Welcome "+result[0].stu_name+" , Happy coding";
+                         alarm_message="Welcome "+stname+" , Happy coding";
                          connection.query("update sign_in_tabel set sign_alarm=" + sign_alarm + ",check_message='" + alarm_message + "' where stu_id=" +result[0].stu_id+ " and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "' ", function (err, result3, fields) {
                               if (err) throw err;
                           });
@@ -366,7 +387,16 @@ connection.query("SELECT * FROM execuse_condithion where stu_id=" +result[0].stu
               //XXXXXXXXXXXXXX Condition only for weekend
               if(dateFormat(now, "ddd")== 'Sun')
               {
-                alarm_message="Welcome "+result[0].stu_name+" you are just checked in but there is no registration action in the week end, Happy coding";
+                var phrase = result[0].stu_name;
+                var pos = phrase.indexOf(" ");
+                if(pos>0){
+                var stname=phrase.substr(0, pos);
+                }
+                else{
+                var stname=result[0].stu_name;
+                }
+
+                alarm_message="Welcome "+stname+" you are just checked in but there is no registration action in the week end, Happy coding";
                 connection.query("delete from sign_in_tabel  where stu_id=" +result[0].stu_id+ " and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "' ", function (err, rup, fields) {
                      if (err) throw err;
               });
@@ -451,7 +481,7 @@ scond=" Out from the program";
 var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8')
 
                  var transporter = nodemailer.createTransport({
-                   service: 'gmail',
+                   service: 'restart.network',
                    auth: {
                      user: rlog[0].email,
                      pass: dataz.trim()
@@ -485,7 +515,7 @@ var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8')
     var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8');
 var transporter = nodemailer.createTransport({
 
-  service: 'gmail',
+  service: 'restart.network',
   auth: {
     user: rlog[0].email,
     pass: dataz.trim()
@@ -519,7 +549,7 @@ slack = new Slack();
 slack.setWebhook(webhookUri);
 
 slack.webhook({
-  channel: "#general",
+  channel: "#"+result2[0].slack_channel,
   username: "webhookbot",
   text: alarm_message_slack,
 }, function(err, response) {
@@ -580,7 +610,7 @@ router.post('/check_get', (req,res)=>{
     alarm_message="";
 
     if (err) return next(err)
-    connection.query("SELECT * FROM bootcamp_name where bootcamp_active=1 order by bootcamp_id desc ", function (err, ra1, fields) {
+    connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 and bootcamp_active=1 order by bootcamp_id desc ", function (err, ra1, fields) {
          if (err) throw err;
    if(ra1!=''){
 

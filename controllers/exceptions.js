@@ -7,7 +7,7 @@ router.get('/', (req,res)=>{
   var date = new Date();
       req.getConnection(function(err, connection) {
         if (err) return next(err);
-        connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+        connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
          if (err) throw err;
 currentdate=dateFormat(date, "yyyy-mm-dd");
                res.render('exceptions',{bootcamp:bootcamp,stu:'',currentdate:currentdate,todate:'',stu2:'',sign:'',selstu:'',dayloop:'',regsign:''})
@@ -29,7 +29,7 @@ currentdate=dateFormat(date, "yyyy-mm-dd");
             if (err) return next(err);
 
               if(req.body.slelectbootcamp==''  && req.body.slelectbootcamp=='' ){
-                connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+                connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
                  if (err) throw err;
                 currentdate=req.body.fromdate;
                 todate=req.body.todate;
@@ -45,7 +45,7 @@ currentdate=dateFormat(date, "yyyy-mm-dd");
           connection.query(`SELECT * FROM bootcamp_students WHERE stu_cancel=0 and stu_stop=0 and bootcamp_id = ${req.body.slelectbootcamp}   order by stu_name `, function (err, stu, fields) {
                if (err) throw err;
                // console.log(req.params.id);
-               connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+               connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
                 if (err) throw err;
        currentdate=req.body.fromdate;
        todate=req.body.todate;
@@ -92,7 +92,7 @@ currentdate=dateFormat(date, "yyyy-mm-dd");
              connection.query(`SELECT * FROM bootcamp_students WHERE stu_cancel=0 and stu_stop=0 and bootcamp_id = ${req.body.slelectbootcamp}   order by stu_name`, function (err, stu, fields) {
                 if (err) throw err;
                 // console.log(req.params.id);
-                connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+                connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
                  if (err) throw err;
              currentdate=req.body.fromdate;
              todate=req.body.todate;
@@ -130,7 +130,7 @@ currentdate=dateFormat(date, "yyyy-mm-dd");
              connection.query(`SELECT * FROM bootcamp_students WHERE stu_cancel=0 and stu_stop=0 and bootcamp_id = ${req.body.slelectbootcamp}   order by stu_name`, function (err, stu, fields) {
                 if (err) throw err;
                 // console.log(req.params.id);
-                connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+                connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
                  if (err) throw err;
              currentdate=req.body.fromdate;
              todate=req.body.todate;

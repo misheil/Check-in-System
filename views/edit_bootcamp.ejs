@@ -17,30 +17,43 @@
         <hr />
 
           <div class="form__group">
-
+            Bootcamp Name
               <input type="text" name="bootcamp_name" placeholder="Bootcamp Name" value="<%= data[i].bootcamp_name %>" class="form__input" required/>
           </div>
 
           <div class="form__group">
+            Starting Date
           <input type='date' name="start_date" value="<%= data[i].start_date %>" class="form__input" required/>
           </div>
 
           <div class="form__group">
+            Ending Date
               <input type="date" name="end_date" value="<%= data[i].end_date %>"  class="form__input" required/>
           </div>
 
           <div class="form__group">
+            Slack Link
               <input type="url" name="slack_link" value="<%= data[i].slack_link %>" placeholder="Slack Link" class="form__input" />
           </div>
           <hr>
 
+          <div class="form__group">
+            Slack Channel Name
+              <input type="text" name="slack_channel" value="<%= data[i].slack_channel %>" placeholder="Slack Channel Name" class="form__input" required="" oninvalid="this.setCustomValidity('Please enter slack channel name')"
+        oninput="setCustomValidity('')"/>
+          </div>
 
           <div class="form__group">
             <input type="checkbox" name="active" value="1" <% if(data[i].bootcamp_active == 1){ %> checked <%}%> >The active bootcamp
           </div>
 <% } %>
 
-          <button type="submit" class="btn_edit">Edit</button><input class="btn_edit" type="button" onclick="location.href='/bootcamp';" value="Back" />
+
+
+          <button type="submit" class="btn_edit">Update</button><br><br>
+          <input type="submit" name="Delete" class="btn btn-danger" style="width:130px" Value="Delete Bootcamp">
+
+          <input class="btn btn-warning" style="width:130px" type="button" onclick="location.href='/bootcamp';" value="Back" />
       </form>
 
 

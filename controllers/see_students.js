@@ -6,7 +6,7 @@ var dateFormat = require('dateformat');
 router.get('/', (req,res)=>{
   req.getConnection(function(err, connection) {
     if (err) return next (err)
-    connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc",
+    connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0 order by bootcamp_id desc",
        function (err, result, fields) {
          if (err) throw err;
     res.render('see_students',{bootcamp:result,data:'',stu:'',selstu:''})
@@ -32,7 +32,7 @@ router.post('/show', (req,res)=>{
           connection.query(`SELECT * FROM bootcamp_students WHERE stu_cancel=0 and stu_stop=0    order by stu_name `, function (err, stu, fields) {
                if (err) throw err;
                // console.log(req.params.id);
-               connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+               connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
                 if (err) throw err;
 
        res.render('see_students',{bootcamp:bootcamp,data:stu,stu:stu,selstu:''})
@@ -62,7 +62,7 @@ router.post('/show', (req,res)=>{
           connection.query(sql, function (err, stu, fields) {
                if (err) throw err;
                // console.log(req.params.id);
-               connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+               connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
                 if (err) throw err;
 
        res.render('see_students',{bootcamp:bootcamp,data:stu,stu:stu,selstu:''})
@@ -78,7 +78,7 @@ router.post('/show', (req,res)=>{
 router.get('/stu/:id', (req,res)=>{
   req.getConnection(function(err, connection) {
     if (err) return next (err)
-    connection.query("SELECT * FROM bootcamp_name",
+    connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0",
        function (err, result, fields) {
          if (err) throw err;
          connection.query(`SELECT * FROM checking_system.bootcamp_students WHERE stu_cancel=0 AND stu_stop=0 AND bootcamp_id = ${req.params.id}`,
@@ -94,7 +94,7 @@ router.get('/edit/:id', (req,res)=>{
   req.getConnection(function(err, connection) {
     if (err) return next(err);
 
-    connection.query("SELECT * FROM bootcamp_name", function (err, result_boot, fields) {
+    connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0", function (err, result_boot, fields) {
          if (err) throw err;
 
   connection.query(`SELECT * FROM bootcamp_students WHERE stu_id = ${req.params.id}`, function (err, result, fields) {
@@ -137,7 +137,7 @@ if(stuck==''){
 
   });
 
-    connection.query("SELECT * FROM bootcamp_name", function (err, result, fields) {
+    connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0", function (err, result, fields) {
          if (err) throw err;
     connection.query("SELECT * FROM countries", function (err2, result_country, fields) {
               if (err2) throw err2;
@@ -176,7 +176,7 @@ if(stuck==''){
    connection.query("SELECT * FROM bootcamp_students WHERE stu_cancel=0 and stu_stop=0 and bootcamp_id = " +rx[0].bootcamp_id+ "   order by stu_name ", function (err, stu, fields) {
         if (err) throw err;
 
-        connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+        connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
          if (err) throw err;
 
 res.render('see_students',{bootcamp:bootcamp,data:stu,stu:stu,selstu:''})
@@ -207,7 +207,7 @@ res.render('see_students',{bootcamp:bootcamp,data:stu,stu:stu,selstu:''})
    connection.query("SELECT * FROM bootcamp_students WHERE stu_cancel=0 and stu_stop=0 and bootcamp_id = " +rx[0].bootcamp_id+ "   order by stu_name ", function (err, stu, fields) {
         if (err) throw err;
 
-        connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+        connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
          if (err) throw err;
 
 res.render('see_students',{bootcamp:bootcamp,data:stu,stu:stu,selstu:''})
@@ -239,7 +239,7 @@ var sql = "update bootcamp_students set stu_stop=1,stu_stop_reason='" +req.body.
  connection.query("SELECT * FROM bootcamp_students WHERE stu_cancel=0 and stu_stop=0 and bootcamp_id = " +rx[0].bootcamp_id+ "   order by stu_name ", function (err, stu, fields) {
       if (err) throw err;
       // console.log(req.params.id);
-      connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, bootcamp, fields) {
+      connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0 order by bootcamp_id desc", function (err, bootcamp, fields) {
        if (err) throw err;
 
 res.render('see_students',{bootcamp:bootcamp,data:stu,stu:stu,selstu:''})

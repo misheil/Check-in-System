@@ -14,10 +14,10 @@ router.get('/', (req,res)=>{
 
   req.getConnection(function(err, connection) {
     if (err) return next(err);
-  connection.query("SELECT * FROM bootcamp_name order by bootcamp_id desc", function (err, result, fields) {
+  connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0 order by bootcamp_id desc", function (err, result, fields) {
        if (err) throw err;
 
-       connection.query("SELECT * FROM countries", function (err2, result_country, fields) {
+       connection.query("SELECT * FROM countries  order by nationality", function (err2, result_country, fields) {
             if (err2) throw err2;
 
   res.render('students',{result : result,result_country : result_country,message : '' , errors : '', currentuser: ''});
@@ -61,10 +61,10 @@ var errors = req.validationErrors();
       errors.forEach(function( err){
 
 });
-      connection.query("SELECT * FROM bootcamp_name", function (err, result, fields) {
+      connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0", function (err, result, fields) {
            if (err) throw err;
 
-           connection.query("SELECT * FROM countries", function (err2, result_country, fields) {
+           connection.query("SELECT * FROM countries  order by nationality", function (err2, result_country, fields) {
                 if (err2) throw err2;
       req.flash('info','Student successfully added.')
       res.redirect('back',{
@@ -85,10 +85,10 @@ if(!errors){
    if (err) throw err;
 
    message="Student successfully added "
-   connection.query("SELECT * FROM bootcamp_name", function (err, result, fields) {
+   connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0", function (err, result, fields) {
         if (err) throw err;
 
-        connection.query("SELECT * FROM countries", function (err2, result_country, fields) {
+        connection.query("SELECT * FROM countries order by nationality", function (err2, result_country, fields) {
              if (err2) throw err2;
 
              connection.query("SELECT * FROM bootcamp_students where stu_name= '" +req.body.stu_name+ "' and email='" +req.body.stu_email+ "' order by stu_id desc", function (err, currentuser, fields) {
@@ -106,10 +106,10 @@ res.end();
 else {
 
 
-  connection.query("SELECT * FROM bootcamp_name", function (err, result, fields) {
+  connection.query("SELECT * FROM bootcamp_name where bootcamp_cancel=0", function (err, result, fields) {
        if (err) throw err;
 
-       connection.query("SELECT * FROM countries", function (err2, result_country, fields) {
+       connection.query("SELECT * FROM countries order by nationality", function (err2, result_country, fields) {
             if (err2) throw err2;
 
     req.flash('info','Student email or card id is already exist .. Please try again');
