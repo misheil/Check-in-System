@@ -1,10 +1,9 @@
-# RestartCheckIn
+# RestartCheckIn - System
 
-Here is our Boiler Plate, all you need to do is clone this respository and after that run npm install to install dependencies for Node JS and React, i already added eveything we need to package.json.
-also MySQL is set with MiddleWares.
+Check in system to register students attendance , send notification message on the slack and also on student e-mail for all students absence or who is delayed after 9:00 O'clock , the system logic consider most of all conditions which can mange these kind of check in systems "Like … using interactive voice response to read the text and turn it to voice, congratulate message for who has birthday at that day, and in the control panel register or edit bootcamp , students,  exceptions , reports and visual charts  "
+
+Check in system for Restart.Network - Node, Express, MySQL, Ejs , responsivevoice , corechart.
 
 Good Luck!
-
-Check in system for Restart.Network - Node, Express, SQL, Ejs , responsivevoice , corechart.
 
 Irene, Ivas , Sjahriyar and  Mishiel Restart Network GROUP
