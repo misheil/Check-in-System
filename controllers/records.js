@@ -68,7 +68,7 @@ currentdate=dateFormat(date, "yyyy-mm-dd");
                   if (err) throw err;
 
 
-                  var sql = "SELECT * FROM sign_in_tabel WHERE abs_id=0 and bootcamp_id = " +req.body.slelectbootcamp+ " "
+                  var sql = "SELECT * FROM sign_in_tabel WHERE  bootcamp_id = " +req.body.slelectbootcamp+ " "
                  if(req.body.slelectstu!='' && req.body.slelectstu!='0' ){
                  sql=sql+"  and stu_id = " +req.body.slelectstu+ "";
                  }

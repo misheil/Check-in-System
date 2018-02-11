@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Day Exceptions</title>
+
+    <% include ./partials/head %>
+    <link href="css/records.css" rel="stylesheet" type="text/css">
+<%if(days==''){%>
+<meta http-equiv="refresh" content="0;  URL=/dayexceptions">
+<%}%>
+</head>
+  <body>
+<header>
+    <% include ./partials/header %>
+</header>
+
+  <div class="container_records" align="center">
+  <form method="post" action="/dayexceptions/update" name="f1">
+    <table cellSpacing="2" cellPadding="2" class="table table-striped" border="0" width="60%" align="center">
+      <tr bgcolor="#EDEAEA">
+      <td align="center" colspan="4" bgcolor="#A6A7AA" ><font color="#FFF"><b>
+        Day Exceptions to don't send automatic slack notification for absence at that day every week till you remove this exception.
+      </b></font>
+      </td>
+      </tr>
+
+      <tr bgcolor="#EDEAEA">
+      <td align="center" width="25%"> Day </td>
+      <td align="center" width="75%"> Exception </td>
+     </tr>
+    <%if(days!=''){%>
+    <%days.forEach(function(res){%>
+    <tr bgcolor="#EDEAEA">
+    <td align="center">
+    <%=res.day_ac_name%>
+    </td>
+    <td align="center">
+      <input type="checkbox" name="day<%=res.day_id%>" value="<%=res.day_id%>" <% if(res.day_exception == 1){ %> checked <%}%> >
+    </td>
+    </tr>
+    <%})%>
+    <%}%>
+    </table>
+
+<div align="center">
+<input type="submit" name="saveme" Value="  Save day exceptions  " class="myButton">
+</div>
+<br/>
+</form>
+</div>
+<footer>
+  <% include ./partials/footer %>
+</footer>
+
+</body>

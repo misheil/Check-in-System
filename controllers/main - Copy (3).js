@@ -105,12 +105,6 @@ if(ra1!=''){
 
   connection.query("SELECT * FROM bootcamp_students where stu_cancel=0 and stu_stop=0 and bootcamp_id=" +ra1[0].bootcamp_id+ " ", function (err, ra2, fields) {
        if (err) throw err;
-
-//kkkkkkkkkk
-connection.query("SELECT * FROM exception_day where day_name='" +dateFormat(now, "ddd")+ "' and day_exception=1  ", function (err, rday, fields) {
-   if (err) throw err;
-   if(rday == ''){
-//kkkkkkkkkk
        ra2.forEach(function(res){
 
          connection.query("SELECT * FROM sign_in_tabel where stu_id=" +res.stu_id+ "  and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "'  ", function (err, ra3, fields) {
@@ -133,8 +127,6 @@ var sql = "INSERT INTO sign_in_tabel (stu_id,bootcamp_id,card_id,sign_alarm,chec
                      if (err) throw err;
    });
    //Logic sign_alarm
-
-
 
      connection.query("SELECT * FROM sign_in_tabel where stu_id=" +res.stu_id+ "  order by sign_id desc", function (err, result4, fields) {
         if (err) throw err;
@@ -190,11 +182,6 @@ i=i+1;
        }
          });
          });
-
-//kkkkkkkkkk
-}
-});
-//kkkkkkkkkk
 
  });
 }

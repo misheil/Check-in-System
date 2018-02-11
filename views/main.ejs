@@ -53,12 +53,15 @@
        <link rel="stylesheet" href="/css/style2.css">
 
 <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+<%if (refresh_endtime==-1 || refresh_endtime==0){%>
+<meta http-equiv="refresh" content="600;  URL=../main/check">
+<%}%>
 	<%if (refresh_endtime>=0){%>
-<meta http-equiv="refresh" content="<%=refresh_endtime*60%>;  URL=../main/check">
+<meta http-equiv="refresh" content="600;  URL=../main/check">
   <%}%>
 
 	<%if (refresh_endtime == -1000){%>
-	<meta http-equiv="refresh" content="2;  URL=../main/check">
+	<meta http-equiv="refresh" content="1;  URL=../main/check">
 	<%}%>
 </head>
 <body onclick="document.f1.cardid.focus();" onload="startTime();document.f1.cardid.focus();">
@@ -150,10 +153,10 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 		<%if (signed_stu!='')  {i=0; %>
 		<%signed_stu.forEach(function(sign){i=i+1;%>
 			<div class="images">
-				<%if(msg[0].stu_photo_name!='' && sign.stu_photo_name!= "undefined" ){ %>
+				<%if(sign.stu_photo_name!='' && sign.stu_photo_name!= "undefined" ){ %>
    <img src="/uploads/<%= sign.stu_photo_name %>" style="width:60px; height:60px;border-radius: 50%;">
 	 <%} else {%>
-		 <img src="/uploads/blank.jpg" style="width:60px; height:60px;border-radius: 50%;">
+		<img src="/uploads/blank.jpg" style="width:60px; height:60px;border-radius: 50%;">
 		 <%}%>
    <p><%= sign.sign_in_date.getHours() %>:<%= sign.sign_in_date.getMinutes() %></p>
 </div>
@@ -164,6 +167,7 @@ responsiveVoice.speak("<%= msg[0].check_message %>", "UK English Male");
 </div>
 <footer>
 	<% include ./partials/footer %>
+	<!-- <%=refresh_endtime%> -->
 </footer>
 
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>

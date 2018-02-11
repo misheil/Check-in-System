@@ -46,7 +46,7 @@ req.checkBody('zip', 'Post Code is required').not().isEmpty();
 req.checkBody('stu_address', 'Address is required').not().isEmpty();
 req.checkBody('stu_city', 'City is required').not().isEmpty();
 if(req.body.stu_card != ''){
-var sql="SELECT * FROM bootcamp_students where bootcamp_id= " +req.body.slelectbootcamp+ " and card_id='" +req.body.stu_card+ "'  and email='" +req.body.stu_email+ "' ";
+var sql="SELECT * FROM bootcamp_students where bootcamp_id= " +req.body.slelectbootcamp+ " and card_id='" +req.body.stu_card+ "'  or email='" +req.body.stu_email+ "' ";
 }
 else {
 var sql="SELECT * FROM bootcamp_students where bootcamp_id= " +req.body.slelectbootcamp+ "  and email='" +req.body.stu_email+ "' ";

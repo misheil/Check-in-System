@@ -148,9 +148,20 @@ for(j=0;j<=dayloop;j++){
               <%
               xd1=dt.getUTCDate()+'-'+dt.getUTCMonth()+1+'-'+dt.getUTCFullYear();
               xd2=res_sign.sign_in_date.getUTCDate()+'-'+res_sign.sign_in_date.getUTCMonth()+1+'-'+res_sign.sign_in_date.getUTCFullYear();
-              if (res_sign.stu_id==stu2.stu_id && xd1==xd2 ){%>
+              if (res_sign.stu_id==stu2.stu_id && xd1==xd2 ){
+                  if (res_sign.abs_id== 0 ){
+                %>
 
               <%=res_sign.sign_in_date.getUTCHours()+1%>:<%=res_sign.sign_in_date.getMinutes()%>
+              <%}else{%>
+<font size='1'>Absent</font> <br>
+
+                <%if (res_sign.sign_alarm==1 ){%> <font color='#075903' size='1'><b>Cool down</b></font>  <%}%>
+        <%if (res_sign.sign_alarm==2 ){%> <font color='blue' size='1'><b>Wash dishes</b></font>  <%}%>
+         <%if (res_sign.sign_alarm==3 ){%> <font color='red' size='1'><b>OUT </b></font>  <%}%>
+
+                <%}%>
+
             <!-- <%=dt.getUTCDate();%>/<%=dt.getUTCMonth()+1;%> -->
             <%}else{%>
 
@@ -180,10 +191,21 @@ for(j=0;j<=dayloop;j++){
             <%
             xd1=dt.getUTCDate()+'-'+dt.getUTCMonth()+1+'-'+dt.getUTCFullYear();
             xd2=res_sign.sign_in_date.getUTCDate()+'-'+res_sign.sign_in_date.getUTCMonth()+1+'-'+res_sign.sign_in_date.getUTCFullYear();
-            if (res_sign.stu_id==stu2.stu_id && xd1==xd2 ){%>
+            if (res_sign.stu_id==stu2.stu_id && xd1==xd2 ){
+            if (res_sign.abs_id== 0 ){
+              %>
             <%=res_sign.sign_in_date.getUTCHours()+1%>:<%=res_sign.sign_in_date.getMinutes()%>
-          <!-- <%=dt.getUTCDate();%>/<%=dt.getUTCMonth()+1;%> -->
+            <%}else{%>
+              <font size='1'>Absent</font> <br>
+
+            <%if (res_sign.sign_alarm==1 ){%> <font color='#075903' size='1'><b>Cool down</b></font>  <%}%>
+            <%if (res_sign.sign_alarm==2 ){%> <font color='blue' size='1'><b>Wash dishes</b></font>  <%}%>
+            <%if (res_sign.sign_alarm==3 ){%> <font color='red' size='1'><b>OUT </b></font>  <%}%>
+          <%}%>
+
+
           <%}else{%>
+
 
           <%}%>
           <%});%>
@@ -192,8 +214,6 @@ for(j=0;j<=dayloop;j++){
               ---
             <%}%>
 
-
-            <!-- <%=dt.getUTCDate();%>/<%=dt.getUTCMonth()+1;%> -->
             <%dt.setDate(dt.getDate()+1);;%>
         </td>
         <%}%>

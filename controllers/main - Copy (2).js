@@ -8,7 +8,9 @@ var dateFormat = require('dateformat');
 var now = new Date();
 var rp = require('request-promise');
 var Slack = require('slack-node');
+
 var nodemailer = require('nodemailer');
+// var express = require('express')
 var request = require('request')
 var bodyParser = require('body-parser')
 var fs = require('fs');
@@ -105,12 +107,6 @@ if(ra1!=''){
 
   connection.query("SELECT * FROM bootcamp_students where stu_cancel=0 and stu_stop=0 and bootcamp_id=" +ra1[0].bootcamp_id+ " ", function (err, ra2, fields) {
        if (err) throw err;
-
-//kkkkkkkkkk
-connection.query("SELECT * FROM exception_day where day_name='" +dateFormat(now, "ddd")+ "' and day_exception=1  ", function (err, rday, fields) {
-   if (err) throw err;
-   if(rday == ''){
-//kkkkkkkkkk
        ra2.forEach(function(res){
 
          connection.query("SELECT * FROM sign_in_tabel where stu_id=" +res.stu_id+ "  and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "'  ", function (err, ra3, fields) {
@@ -133,8 +129,6 @@ var sql = "INSERT INTO sign_in_tabel (stu_id,bootcamp_id,card_id,sign_alarm,chec
                      if (err) throw err;
    });
    //Logic sign_alarm
-
-
 
      connection.query("SELECT * FROM sign_in_tabel where stu_id=" +res.stu_id+ "  order by sign_id desc", function (err, result4, fields) {
         if (err) throw err;
@@ -191,11 +185,6 @@ i=i+1;
          });
          });
 
-//kkkkkkkkkk
-}
-});
-//kkkkkkkkkk
-
  });
 }
 //XX  STarttttttttttttttttttttttttttttt
@@ -216,7 +205,6 @@ connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 and bootc
      if (err) throw err;
 if(ra1!=''){
 
-var now = new Date();
 
 connection.query("SELECT * FROM sign_in_tabel where  date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "' and abs_id=0  and bootcamp_id=" +ra1[0].bootcamp_id+ " ", function (err, signed_stu, fields) {
      if (err) throw err;
@@ -530,7 +518,7 @@ scond=" Out from the program";
 var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8')
 
                  var transporter = nodemailer.createTransport({
-                   service: 'gmail',
+                   service: '.network',
                    auth: {
                      user: rlog[0].email,
                      pass: dataz.trim()
@@ -564,7 +552,7 @@ var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8')
     var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8');
 var transporter = nodemailer.createTransport({
 
-  service: 'gmail',
+  service: '.network',
   auth: {
     user: rlog[0].email,
     pass: dataz.trim()
@@ -621,39 +609,18 @@ slack.webhook({
 }
 
 });
+
+
 };
 });
+
+
 };
 });
-
-//Diplay signed students .......
-
-req.getConnection(function(err, connection) {
-   if (err) return next(err);
-
-connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 and bootcamp_active=1 order by bootcamp_id desc ", function (err, ra1, fields) {
-     if (err) throw err;
-if(ra1!=''){
-
-var now = new Date();
-connection.query("SELECT * FROM sign_in_tabel where  date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "' and abs_id=0  and bootcamp_id=" +ra1[0].bootcamp_id+ " ", function (err, signed_stu, fields) {
-     if (err) throw err;
-    connection.query(`SELECT * FROM birth_date where played =0 order by birth_id desc  `, function (err, birth , fields) {
-          if (err) throw err;
-
-          connection.query(`SELECT * FROM check_ok `, function (err, msg, fields) {
-               if (err) throw err;
-  res.render('main',{refresh_endtime: -1,birth:'',msg:'ok',signed_stu:signed_stu});
- });
+res.render('main',{refresh_endtime: '',birth:'',msg:'ok',signed_stu:''});
 
 });
- });
- }
- });
-});
-//XX Diplay signed students .......
 
-});
 });
 
 
@@ -683,7 +650,7 @@ router.post('/check_get', (req,res)=>{
     connection.query("SELECT * FROM bootcamp_name  where bootcamp_cancel=0 and bootcamp_active=1 order by bootcamp_id desc ", function (err, ra1, fields) {
          if (err) throw err;
    if(ra1!=''){
-var now = new Date();
+
     connection.query("SELECT * FROM sign_in_tabel where  date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "' and abs_id=0  and bootcamp_id=" +ra1[0].bootcamp_id+ " ", function (err, signed_stu, fields) {
          if (err) throw err;
 
