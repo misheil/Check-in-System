@@ -6,6 +6,6 @@ Check in system for Restart.Network using Nodejs, Express, MySQL, Ejs , responsi
 
 Good Luck!
 
-Irene, Ivas , Sjahriyar and  Mishiel Restart Network GROUP
+
 
 ![alt text](https://github.com/misheil/Check-in-System/blob/master/public/img/project.gif)
