@@ -2,6 +2,9 @@
   "name": "impactproject",
   "version": "1.0.0",
   "description": "Restart Check-in System",
+  "engines": {
+    "node": "9.4.0"
+  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
