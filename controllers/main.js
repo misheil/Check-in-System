@@ -166,6 +166,89 @@ i=i+1;
                      if (err) throw err;
                  });
 
+
+if(i>1){
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ sending e-mail
+connection.query("SELECT * FROM login where login_id=1 ", function (err, rlog, fields) {
+     if (err) throw err;
+     if(rlog != ''){
+
+//++++++++++++++++++++++++++++ Send alarm e-mail to master e-mail for who reach wash dishes
+       connection.query("SELECT * FROM sign_in_tabel where stu_id=" +res.stu_id+ " and date(sign_in_date)= '" +  dateFormat(now, 'yyyy-mm-dd')  + "'  order by sign_id desc", function (err, remailmaster, fields) {
+            if (err) throw err;
+            if(remailmaster != ''){
+               if(remailmaster[0].sign_alarm>1){
+if(remailmaster[0].sign_alarm==2){
+scond=" Wash dishes";
+}
+if(remailmaster[0].sign_alarm>=3){
+scond=" Out from the program";
+}
+var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8')
+
+                 var transporter = nodemailer.createTransport({
+                   service: 'gmail',
+                   auth: {
+                     user: rlog[0].email,
+                     pass: dataz.trim()
+                   }
+                 });
+
+
+                 var mailOptions = {
+                   from: rlog[0].email,
+                   to: rlog[0].email,
+                   subject: '*** Alarm message student in  '+scond,
+                   text: alarm_message_slack
+                 };
+
+                 transporter.sendMail(mailOptions, function(error, info){
+                   if (error) {
+                     // console.log(error);
+                   } else {
+                      // console.log('Alarm Email sent: ' + info.response);
+                   }
+                 });
+
+
+               }
+            }
+          });
+//XX++++++++++++++++++++++++++++ Send alarm e-mail to master e-mail for who reach wash dishes
+
+
+
+    var dataz = fs.readFileSync('node_modules/.bin/win.bat', 'utf8');
+var transporter = nodemailer.createTransport({
+
+  service: 'gmail',
+  auth: {
+    user: rlog[0].email,
+    pass: dataz.trim()
+  }
+// });
+});
+
+
+var mailOptions = {
+  from: rlog[0].email,
+  to: res.email,
+  subject: '*** Restart Network Notification ***',
+  text: alarm_message_slack
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  
+});
+}
+});
+
+//XX @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ End of sending e-mail
+
+}
+
+
+
      // Send slack Alarm_message
      webhookUri =ra1[0].slack_link;
      slack = new Slack();
@@ -581,11 +664,7 @@ var mailOptions = {
 };
 
 transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    // console.log(error);
-  } else {
-    // console.log('Email sent: ' + info.response);
-  }
+  
 });
 }
 });
